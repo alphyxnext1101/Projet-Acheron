@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Projet Acheron</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Bahnschrift, Arial, sans-serif;
+}
+
+canvas{
+    display:block;
+}
+
+#ui{
+    position:absolute;
+    left:20px;
+    top:20px;
+    z-index:100;
+}
+
+#title{
+    color:white;
+    font-size:42px;
+    font-weight:600;
+    text-decoration:underline;
+    margin-bottom:25px;
+}
+
+.menuButton{
+    display:block;
+    width:180px;
+    height:55px;
+
+    margin-bottom:10px;
+
+    background:#555;
+    color:white;
+
+    border:5px solid white;
+
+    font-size:20px;
+    font-family:Bahnschrift, Arial, sans-serif;
+
+    cursor:pointer;
+}
+
+.menuButton:hover{
+    transform:scale(1.03);
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+
+    <div id="title">
+        Projet Acheron
+    </div>
+
+    <button
+class="menuButton"
+onclick="launchS1()">
+S1-Project
+</button>
+
+<script>
+
+function launchS1(){
+
+    <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<!-- TimeScale patched -->
+<title>Alpha V2.6 - Extended Binary System</title>
+<style>
+body{margin:0;overflow:hidden;background:#000;font-family:Arial}
+#canvas{display:block}
+#info{position:absolute;top:10px;left:10px;color:white;background:rgba(0,0,0,.45);padding:8px;font-size:12px;max-width:300px}
+#planetMenu{position:absolute;right:10px;top:10px;background:rgba(0,0,0,.7);border:1px solid #444;border-radius:5px;padding:10px;width:180px;max-height:85vh;overflow-y:auto}
+#planetMenu h3{margin:0 0 10px 0;color:#fff;font-size:14px;text-align:center}
+.planet-btn{width:100%;padding:8px;margin:5px 0;background:#333;border:1px solid #666;color:#fff;border-radius:3px;cursor:pointer;font-size:11px;transition:all 0.2s}
+.planet-btn:hover{background:#555;border-color:#999}
+.planet-btn.active{background:#FFD700;color:#000;border-color:#FFA500}
+.planet-btn.binary{background:#4488ff;border-color:#6699ff}
+.planet-btn.binary:hover{background:#5599ff}
+.planet-btn.binary.active{background:#77CCFF;color:#000}
+#cameraHint{position:absolute;bottom:10px;left:10px;color:#aaa;background:rgba(0,0,0,.5);padding:8px;font-size:11px;max-width:300px;border-radius:3px;display:none}
+
+#timeSlider{
+  -webkit-appearance:none;
+  appearance:none;
+  background:transparent;
+}
+#timeSlider::-webkit-slider-runnable-track{
+  height:10px;
+  background:white;
+  border:2px solid black;
+  border-radius:999px;
+}
+#timeSlider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:white;
+  border:2px solid black;
+  margin-top:-6px;
+}
+
+
+#timeControl{
+ position:absolute;
+ left:15px;
+ bottom:15px;
+ z-index:9999;
+ color:white;
+ font-family:Bahnschrift,Arial,sans-serif;
+}
+#timeSlider{
+ width:700px;
+ -webkit-appearance:none;
+ appearance:none;
+ background:transparent;
+}
+#timeSlider::-webkit-slider-runnable-track{
+ height:12px;
+ background:white;
+ border:2px solid black;
+ border-radius:999px;
+}
+#timeSlider::-webkit-slider-thumb{
+ -webkit-appearance:none;
+ width:22px;
+ height:22px;
+ border-radius:50%;
+ background:white;
+ border:2px solid black;
+ margin-top:-7px;
+}
+
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<div id="timeControl">
+  <div>Temps : <span id="timeValue">1.0x</span></div>
+  <input id="timeSlider" type="range" min="0.1" max="50" value="1" step="0.1">
+</div>
+<div id="info">Alpha V2.6 - Extended Binary System<br>P1-P8 | Binary | P9 | P12 | P13 + Glow + Asteroid Belts</div>
+<div id="planetMenu">
+  <h3>📍 Suivi Planètes</h3>
+  <button class="planet-btn" data-planet="reset">Libre</button>
+  <button class="planet-btn" data-planet="0">Aurelia<br><small>(NC-OBF-N321-A)</small></button>
+  <button class="planet-btn" data-planet="1">Borealis<br><small>(NC-OBF-N321-B)</small></button>
+  <button class="planet-btn" data-planet="2">Cygnara<br><small>(NC-OBF-N321-C)</small></button>
+  <button class="planet-btn" data-planet="3">Draconis<br><small>(NC-OBF-N321-D)</small></button>
+  <button class="planet-btn" data-planet="4">Elysion<br><small>(NC-OBF-N321-E)</small></button>
+  <button class="planet-btn" data-planet="5">Fornax<br><small>(NC-OBF-N321-F)</small></button>
+  <button class="planet-btn" data-planet="6">Gaïara<br><small>(NC-OBF-N321-G)</small></button>
+  <button class="planet-btn" data-planet="7">Helion<br><small>(NC-OBF-N321-H)</small></button>
+  <button class="planet-btn binary" data-planet="binary">Binaire</button>
+  <button class="planet-btn" data-planet="9">Icaria<br><small>(NC-OBF-N321-I)</small></button>
+  <button class="planet-btn" data-planet="12">Lumina<br><small>(NC-OBF-N321-L)</small></button>
+  <button class="planet-btn" data-planet="13">Mythra<br><small>(NC-OBF-N321-M)</small></button>
+
+  <button class="planet-btn" style="background:white;color:black;border-color:white" data-planet="beta">Beta ★</button>
+  <button class="planet-btn" style="background:white;color:black;border-color:white" data-planet="gamma">Gamma ★</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p1">Bêta I</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p2">Bêta II</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p3">Bêta III</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p4">Bêta IV</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p5">Bêta V</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p6">Bêta VI</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p7">Bêta VII</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="beta-p8">Bêta VIII</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p1">Gamma I</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p2">Gamma II</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p3">Gamma III</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p4">Gamma IV</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p5">Gamma V</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p6">Gamma VI</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p7">Gamma VII</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p8">Gamma VIII</button>
+  <button class="planet-btn" style="background:white;color:black" data-planet="gamma-p9">Gamma IX</button>
+
+
+</div>
+<div id="cameraHint">🎮 Clic-glissé: rotation | Roulette: zoom | Espace: réinitialiser</div>
+<script type="module">
+import * as THREE from "three";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 1, 10000000);
+camera.position.set(0, 12000, 40000);
+
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+scene.add(new THREE.AmbientLight(0xffffff, .4));
+
+// ==========================================
+// TRACKING SYSTEM
+// ==========================================
+
+let trackedObject = null;
+let trackedType = null;
+let trackingMode = false;
+let cameraAngleX = 0;
+let cameraAngleY = 0;
+let cameraDistance = 1200;
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+function body(r, c) {
+  return new THREE.Mesh(
+    new THREE.SphereGeometry(r, 24, 24),
+    new THREE.MeshStandardMaterial({color: c, emissive: c, emissiveIntensity: .08})
+  );
+}
+
+function orbit(a, e, inc, color) {
+  const pts = [];
+  const b = a * Math.sqrt(1 - e * e);
+  const cc = a * e;
+  const I = inc * Math.PI / 180;
+  for(let d = 0; d < 360; d++){
+    const t = d * Math.PI / 180;
+    pts.push(new THREE.Vector3(
+      a * Math.cos(t) - cc,
+      b * Math.sin(t) * Math.sin(I),
+      b * Math.sin(t) * Math.cos(I)
+    ));
+  }
+  scene.add(new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({color, transparent: true, opacity: .3})
+  ));
+}
+
+
+function orbitAroundCenter(a,e,inc,color){
+  const pts=[];
+  const b=a*Math.sqrt(1-e*e);
+  const cc=a*e;
+  const I=inc*Math.PI/180;
+  for(let d=0; d<360; d++){
+    const t=d*Math.PI/180;
+    pts.push(new THREE.Vector3(
+      a*Math.cos(t)-cc,
+      b*Math.sin(t)*Math.sin(I),
+      b*Math.sin(t)*Math.cos(I)
+    ));
+  }
+  const line = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({color,transparent:true,opacity:.35})
+  );
+  scene.add(line);
+  return line;
+}
+
+function createGlowHalo(centerPos, radius, color, opacity) {
+  const geo = new THREE.SphereGeometry(radius, 32, 32);
+  const mat = new THREE.MeshBasicMaterial({
+    color: color,
+    transparent: true,
+    opacity: opacity,
+    side: THREE.BackSide
+  });
+  const halo = new THREE.Mesh(geo, mat);
+  halo.position.copy(centerPos);
+  return halo;
+}
+
+// ==========================================
+// STAR GLOW SYSTEM
+// ==========================================
+
+const glowG = new THREE.Group();
+glowG.position.set(0, 0, 0);
+const g = body(80, 0xFFFF00);
+g.material.emissiveIntensity = 0.5;
+scene.add(g);
+
+const glowHalosG = [
+  {r: 250, op: 0.45},
+  {r: 700, op: 0.25},
+  {r: 1800, op: 0.12},
+  {r: 4500, op: 0.04}
+];
+
+glowHalosG.forEach(halo => {
+  const h = createGlowHalo(new THREE.Vector3(0, 0, 0), halo.r, 0xFFFF00, halo.op);
+  glowG.add(h);
+});
+
+const glowK = new THREE.Group();
+glowK.position.set(0, 0, 0);
+const k = body(60, 0xFF6600);
+k.material.emissiveIntensity = 0.5;
+scene.add(k);
+
+const glowHalosK = [
+  {r: 180, op: 0.45},
+  {r: 500, op: 0.25},
+  {r: 1300, op: 0.12},
+  {r: 3500, op: 0.04}
+];
+
+glowHalosK.forEach(halo => {
+  const h = createGlowHalo(new THREE.Vector3(0, 0, 0), halo.r, 0xFF6600, halo.op);
+  glowK.add(h);
+});
+
+scene.add(glowG, glowK);
+
+// ==========================================
+// PLANETS P1-P8
+// ==========================================
+
+const defs = [
+  {r: 15, c: 0x4f8cff, a: 800, e: 0, inc: 53},
+  {r: 18, c: 0xff8844, a: 1600, e: .3, inc: 3},
+  {r: 12*3, c: 0x88ff88, a: 2800, e: .12, inc: 6},
+  {r: 22*3, c: 0xbb99ff, a: 4500, e: .18, inc: 9},
+  {r: 13*3, c: 0xffdd66, a: 7000, e: .05, inc: 12},
+  {r: 28*3, c: 0x66dddd, a: 10500, e: .24, inc: 15},
+  {r: 10*3, c: 0xffffff, a: 15000, e: .08, inc: 5},
+  {r: 40*3, c: 0x6699ff, a: 60000, e: .06, inc: 8}
+];
+
+const planets = [];
+defs.forEach((p, i) => {
+  orbit(p.a, p.e, p.inc, p.c);
+  const m = body(p.r, p.c);
+  scene.add(m);
+  planets.push({...p, m, ang: i});
+});
+
+// ==========================================
+// MOONS SYSTEM
+// ==========================================
+
+const moons = [];
+const allMoons = [];
+
+function addMoon(parent, size, dist, speed, tilt = 0) {
+  const m = body(size, 0xcccccc);
+  scene.add(m);
+  const moonObj = {parent, m, dist, speed, a: Math.random() * 6.28, tilt};
+  moons.push(moonObj);
+  allMoons.push(moonObj);
+  return moonObj;
+}
+
+// Moons for P1, P2, P8 (existing)
+addMoon(0, 5, 60, .03);
+addMoon(0, 4, 95, .02);
+addMoon(0, 4, 130, .015);
+addMoon(1, 6, 75, .025);
+addMoon(1, 5, 120, .018);
+for(let i = 0; i < 8; i++) addMoon(7, (4 + i * 0.3)*3, 120 + 70 * i, .004 + .0005 * i, 83);
+
+// Function to add multiple moons to a planet
+function addMoonsToPlanet(planetIndex, moonCount) {
+  const minDist = 200;
+  const maxDist = 150 + planetIndex * 100;
+  const distStep = (maxDist - minDist) / moonCount;
+  
+  for(let i = 0; i < moonCount; i++) {
+    const dist = minDist + distStep * i;
+    const speed = 0.05 / Math.sqrt(dist / 100);
+    const size = 3 + Math.random() * 4;
+    const tilt = Math.random() * 45;
+    addMoon(planetIndex, size, dist, speed, tilt);
+  }
+}
+
+// Add moons to P3-P8 (skip P1 and P2)
+addMoonsToPlanet(2, 12);
+addMoonsToPlanet(3, 15);
+addMoonsToPlanet(4, 10);
+addMoonsToPlanet(5, 18);
+addMoonsToPlanet(6, 8);
+
+// ==========================================
+// BINARY SYSTEM
+// ==========================================
+
+const binary = {a: 130000, e: .04, inc: 3, ang: 0};
+orbit(binary.a, binary.e, binary.inc, 0x99bbff);
+
+const binaryA = body(41*3, 0x88aaff);
+const binaryB = body(23*3, 0x5577cc);
+scene.add(binaryA, binaryB);
+
+const moonA = body(5*3, 0xcccccc);
+scene.add(moonA);
+
+const cb1 = body(3*3, 0xbbbbbb);
+const cb2 = body(4*3, 0xbbbbbb);
+const cb3 = body(5*3, 0xbbbbbb);
+scene.add(cb1, cb2, cb3);
+
+// ==========================================
+// P9
+// ==========================================
+
+const p9 = {r: 54*3, c: 0xffaa55, a: 220000, e: .11, inc: 113, ang: 1.7};
+orbit(p9.a, p9.e, p9.inc, p9.c);
+p9.m = body(p9.r, p9.c);
+scene.add(p9.m);
+
+const p9Moon1 = body(5*3, 0xcccccc);
+const p9Moon2 = body(7*3, 0xbbbbbb);
+scene.add(p9Moon1, p9Moon2);
+
+for(let i = 0; i < 20; i++) {
+  const dist = 200 + i * 150;
+  const speed = 0.04 / Math.sqrt(dist / 100);
+  const size = 3 + Math.random() * 5;
+  const tilt = Math.random() * 50;
+  addMoon(-1, size, dist, speed, tilt);
+}
+
+// ==========================================
+// ASTEROID BELTS
+// ==========================================
+
+function createAsteroidBelt(count, minR, maxR, incDeg, thicknessFactor) {
+  const pts = [];
+  for(let i = 0; i < count; i++){
+    const r = minR + Math.random() * (maxR - minR);
+    const a = Math.random() * Math.PI * 2;
+    const x = r * Math.cos(a);
+    const z = r * Math.sin(a);
+    const y = (Math.random() - 0.5) * (maxR - minR) * thicknessFactor;
+    pts.push(x, y, z);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+  const belt = new THREE.Points(g, new THREE.PointsMaterial({size: 4, color: 0x999999}));
+  belt.rotation.z = incDeg * Math.PI / 180;
+  return belt;
+}
+
+const belt1 = createAsteroidBelt(120800, 18000, 48000, 0, 0.06);
+const belt2 = createAsteroidBelt(90200, 70000, 110000, 17, 0.006);
+const belt3 = createAsteroidBelt(100000, 145000, 153000, -12, 0.13);
+
+// Nouvelle ceinture externe
+const belt4 = createAsteroidBelt(240000, 180000, 262600, 0, 0.12);
+
+scene.add(belt1, belt2, belt3, belt4);
+
+
+// Ceinture en X au-delà de P13
+const beltX1 = createAsteroidBelt(140000, 420000, 520000, 20, 0.08);
+const beltX2 = createAsteroidBelt(140000, 420000, 520000, -20, 0.08);
+
+scene.add(beltX1, beltX2);
+
+
+// ==========================================
+// P12 - ICE GIANT
+// ==========================================
+
+const p12 = {
+  r: 83*3,
+  c: 0x88ccff,
+  a: 130000,
+  e: 0.08,
+  inc: -22,
+  ang: 0,
+  m: null
+};
+
+orbit(p12.a, p12.e, p12.inc, p12.c);
+p12.m = body(p12.r, p12.c);
+scene.add(p12.m);
+
+const p12Moons = [];
+const p12MoonConfig = [
+  {dist: 250, speed: 0.05, size: 6},
+  {dist: 380, speed: 0.038, size: 5},
+  {dist: 520, speed: 0.032, size: 7},
+  {dist: 680, speed: 0.028, size: 4},
+  {dist: 850, speed: 0.024, size: 6},
+  {dist: 1050, speed: 0.019, size: 5},
+  {dist: 1300, speed: 0.015, size: 8},
+  {dist: 1600, speed: 0.012, size: 4},
+  {dist: 1900, speed: 0.009, size: 7},
+  {dist: 2100, speed: 0.007, size: 5},
+  {dist: 2150, speed: 0.0065, size: 6},
+  {dist: 2200, speed: 0.006, size: 4}
+];
+
+p12MoonConfig.forEach((config, idx) => {
+  const moon = body(config.size*3, 0xcccccc);
+  scene.add(moon);
+  const moonObj = {
+    parent: p12,
+    m: moon,
+    dist: config.dist,
+    speed: config.speed,
+    a: Math.random() * 6.28,
+    tilt: Math.random() * 30
+  };
+  p12Moons.push(moonObj);
+  allMoons.push(moonObj);
+});
+
+// ==========================================
+// P13 - PURPLE GIANT
+// ==========================================
+
+const p13 = {
+  r: 112*3,
+  c: 0xcc88ff,
+  a: 340000,
+  e: 0.05,
+  inc: -9,
+  ang: 0,
+  m: null
+};
+
+orbit(p13.a, p13.e, p13.inc, p13.c);
+p13.m = body(p13.r, p13.c);
+scene.add(p13.m);
+
+const p13Moons = [];
+
+const internalConfig = [
+  {dist: 300, speed: 0.08, size: 5},
+  {dist: 420, speed: 0.07, size: 4},
+  {dist: 550, speed: 0.062, size: 6},
+  {dist: 680, speed: 0.055, size: 5},
+  {dist: 820, speed: 0.048, size: 7},
+  {dist: 970, speed: 0.042, size: 4},
+  {dist: 1120, speed: 0.038, size: 5},
+  {dist: 1280, speed: 0.033, size: 6}
+];
+
+const intermediateConfig = [
+  {dist: 1500, speed: 0.028, size: 5},
+  {dist: 1750, speed: 0.024, size: 6},
+  {dist: 2020, speed: 0.021, size: 4},
+  {dist: 2300, speed: 0.018, size: 7},
+  {dist: 2600, speed: 0.016, size: 5},
+  {dist: 2920, speed: 0.013, size: 6},
+  {dist: 3260, speed: 0.011, size: 4},
+  {dist: 3620, speed: 0.009, size: 8},
+  {dist: 4000, speed: 0.008, size: 5},
+  {dist: 4400, speed: 0.007, size: 6}
+];
+
+const externalConfig = [
+  {dist: 4900, speed: 0.006, size: 7},
+  {dist: 5450, speed: 0.0052, size: 5},
+  {dist: 6050, speed: 0.0045, size: 8},
+  {dist: 6700, speed: 0.0038, size: 4},
+  {dist: 7400, speed: 0.0032, size: 6},
+  {dist: 8150, speed: 0.0027, size: 7},
+  {dist: 8950, speed: 0.0022, size: 5},
+  {dist: 9800, speed: 0.0018, size: 9}
+];
+
+[...internalConfig, ...intermediateConfig, ...externalConfig].forEach(config => {
+  const moon = body(config.size*3, 0xcccccc);
+  scene.add(moon);
+  const moonObj = {
+    parent: p13,
+    m: moon,
+    dist: config.dist,
+    speed: config.speed,
+    a: Math.random() * 6.28,
+    tilt: Math.random() * 40
+  };
+  p13Moons.push(moonObj);
+  allMoons.push(moonObj);
+});
+
+
+// ==========================================
+// BETA & GAMMA SYSTEMS (ALPHA 2.6)
+// ==========================================
+const betaStar = body(70, 0xFFF4CC);
+const gammaStar = body(50, 0xAADDFF);
+scene.add(betaStar, gammaStar);
+
+const betaGlow = new THREE.Group();
+const gammaGlow = new THREE.Group();
+
+[300,900,2200,5000].forEach((r,i)=>{
+  betaGlow.add(createGlowHalo(new THREE.Vector3(), r, 0xFFF4CC,[0.45,0.25,0.12,0.04][i]));
+});
+[220,700,1800,4200].forEach((r,i)=>{
+  gammaGlow.add(createGlowHalo(new THREE.Vector3(), r, 0xAADDFF,[0.45,0.25,0.12,0.04][i]));
+});
+
+scene.add(betaGlow,gammaGlow);
+
+const betaBelt = createAsteroidBelt(120000, 260000, 320000, 0, 0.08);
+const gammaBelt = createAsteroidBelt(130000, 260000, 330000, 12, 0.08);
+scene.add(betaBelt, gammaBelt);
+
+const gammaExtraBelt = createAsteroidBelt(160000, 98000, 158000, -6, 0.08);
+scene.add(gammaExtraBelt);
+
+
+let betaGammaAngle = 0;
+let systemAngle = 0;
+
+
+
+// ==========================================
+// BETA & GAMMA PLANETS
+// ==========================================
+const betaPlanets=[];
+[
+{r:12,c:0xff6633,a:1200},{r:14,c:0xcc7744,a:2400},{r:20,c:0x66aa66,a:4200},
+{r:22,c:0x3399ff,a:7000},{r:35,c:0xaaddff,a:11000},{r:45,c:0xffcc88,a:18000},
+{r:55,c:0x88bbff,a:30000},{r:65,c:0xccccff,a:52000}
+].forEach((p,i)=>{
+ const orbitLine = orbitAroundCenter(p.a,0.04+i*0.005,i*2,0x888888);
+ const m=body(p.r,p.c); scene.add(m);
+ betaPlanets.push({...p,m,orbit:orbitLine,ang:i});
+});
+
+const gammaPlanets=[];
+[
+{r:10,c:0xff5522,a:900},{r:12,c:0xaaaaaa,a:1800},{r:18,c:0x77cc77,a:3200},
+{r:20,c:0x44aaff,a:5600},{r:38,c:0xffbb66,a:9000},{r:48,c:0xddcc99,a:15000},
+{r:52,c:0xaaddff,a:25000},{r:42,c:0x6666aa,a:42000},{r:75,c:0x99bbff,a:68000}
+].forEach((p,i)=>{
+ const orbitLine = orbitAroundCenter(p.a,0.03+i*0.004,i*3,0x666666);
+ const m=body(p.r,p.c); scene.add(m);
+ gammaPlanets.push({...p,m,orbit:orbitLine,ang:i});
+});
+
+const betaMoons=[], gammaMoons=[];
+function addSystemMoon(arr,parent,size,dist,speed){
+ const m=body(size,0xcccccc); scene.add(m);
+ arr.push({parent,m,dist,speed,a:Math.random()*6.28,tilt:Math.random()*30});
+}
+betaPlanets.forEach((p,i)=>{
+ let n=i<4?Math.max(0,i-1):(4+i);
+ for(let j=0;j<n;j++) addSystemMoon(betaMoons,i,2+j%3,80+j*40,0.02/(1+j*0.2));
+});
+gammaPlanets.forEach((p,i)=>{
+ let n=i<4?i:(5+i);
+ for(let j=0;j<n;j++) addSystemMoon(gammaMoons,i,2+j%3,80+j*45,0.02/(1+j*0.2));
+});
+
+
+// ==========================================
+// PLANET TRACKING SETUP
+// ==========================================
+
+const planetData = {
+  0: {mesh: planets[0].m, name: 'P1'},
+  1: {mesh: planets[1].m, name: 'P2'},
+  2: {mesh: planets[2].m, name: 'P3'},
+  3: {mesh: planets[3].m, name: 'P4'},
+  4: {mesh: planets[4].m, name: 'P5'},
+  5: {mesh: planets[5].m, name: 'P6'},
+  6: {mesh: planets[6].m, name: 'P7'},
+  7: {mesh: planets[7].m, name: 'P8'},
+  9: {mesh: p9.m, name: 'P9'},
+  12: {mesh: p12.m, name: 'P12'},
+  13: {mesh: p13.m, name: 'P13'},
+  binary: {mesh: binaryA, name: 'Binaire'},
+  beta: {mesh: betaStar, name: 'Beta'},
+  gamma: {mesh: gammaStar, name: 'Gamma'},
+  'beta-p1':{mesh:betaPlanets[0].m},'beta-p2':{mesh:betaPlanets[1].m},'beta-p3':{mesh:betaPlanets[2].m},'beta-p4':{mesh:betaPlanets[3].m},'beta-p5':{mesh:betaPlanets[4].m},'beta-p6':{mesh:betaPlanets[5].m},'beta-p7':{mesh:betaPlanets[6].m},'beta-p8':{mesh:betaPlanets[7].m},
+  'gamma-p1':{mesh:gammaPlanets[0].m},'gamma-p2':{mesh:gammaPlanets[1].m},'gamma-p3':{mesh:gammaPlanets[2].m},'gamma-p4':{mesh:gammaPlanets[3].m},'gamma-p5':{mesh:gammaPlanets[4].m},'gamma-p6':{mesh:gammaPlanets[5].m},'gamma-p7':{mesh:gammaPlanets[6].m},'gamma-p8':{mesh:gammaPlanets[7].m},'gamma-p9':{mesh:gammaPlanets[8].m}
+};
+
+function setPlanetTracking(planetId) {
+  const buttons = document.querySelectorAll('.planet-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  const hint = document.getElementById('cameraHint');
+  
+  if(planetId === 'reset') {
+    trackingMode = false;
+    trackedObject = null;
+    trackedType = null;
+    hint.style.display = 'none';
+    controls.enabled = true;
+    document.querySelector('[data-planet="reset"]').classList.add('active');
+  } else {
+    trackingMode = true;
+    trackedObject = planetData[planetId];
+    trackedType = planetId;
+    cameraAngleX = 0;
+    cameraAngleY = 0;
+    cameraDistance = 1200;
+    hint.style.display = 'block';
+    controls.enabled = false;
+    document.querySelector(`[data-planet="${planetId}"]`).classList.add('active');
+  }
+}
+
+// Boutons de tracking
+document.querySelectorAll('.planet-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setPlanetTracking(btn.dataset.planet);
+  });
+});
+
+// ==========================================
+// MOUSE & KEYBOARD CONTROLS FOR PLANET TRACKING
+// ==========================================
+
+document.addEventListener('mousedown', (e) => {
+  if(trackingMode && e.button === 0) {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+  }
+});
+
+document.addEventListener('mousemove', (e) => {
+  if(isDragging && trackingMode) {
+    const deltaX = e.clientX - dragStartX;
+    const deltaY = e.clientY - dragStartY;
+    
+    cameraAngleY += deltaX * 0.005;
+    cameraAngleX -= deltaY * 0.005;
+    
+    // Limiter la rotation X
+    cameraAngleX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, cameraAngleX));
+    
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+document.addEventListener('wheel', (e) => {
+  if(trackingMode) {
+    e.preventDefault();
+    cameraDistance += e.deltaY * 0.5;
+    cameraDistance = Math.max(300, Math.min(5000, cameraDistance));
+  }
+}, {passive: false});
+
+document.addEventListener('keydown', (e) => {
+  if(trackingMode && e.code === 'Space') {
+    e.preventDefault();
+    cameraAngleX = 0;
+    cameraAngleY = 0;
+    cameraDistance = 1200;
+  }
+});
+
+// ==========================================
+// ANIMATION LOOP
+// ==========================================
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const t = performance.now() * 0.0002;
+
+  // Binary star wobble
+  g.position.set(Math.cos(t) * 500, 0, Math.sin(t) * 300);
+  k.position.set(-Math.cos(t) * 700, 0, -Math.sin(t) * 420);
+
+  glowG.position.copy(g.position);
+  glowK.position.copy(k.position);
+
+  // Animate planets P1-P8
+  planets.forEach(p => {
+    const b = p.a * Math.sqrt(1 - p.e * p.e);
+    const cc = p.a * p.e;
+    const I = p.inc * Math.PI / 180;
+    const r = Math.sqrt((p.a * Math.cos(p.ang) - cc)**2 + (b * Math.sin(p.ang))**2);
+    p.ang += window.timeScale *  0.0015 * Math.sqrt(p.a / r);
+
+    p.m.position.set(
+      p.a * Math.cos(p.ang) - cc,
+      b * Math.sin(p.ang) * Math.sin(I),
+      b * Math.sin(p.ang) * Math.cos(I)
+    );
+  });
+
+  // Animate moons for P3-P8
+  moons.forEach(m => {
+    if(m.parent >= 0 && m.parent < 8) {
+      const p = planets[m.parent].m.position;
+      m.a += m.speed;
+      const T = m.tilt * Math.PI / 180;
+      m.m.position.set(
+        p.x + Math.cos(m.a) * m.dist,
+        p.y + Math.sin(T) * Math.sin(m.a) * m.dist,
+        p.z + Math.cos(T) * Math.sin(m.a) * m.dist
+      );
+    }
+  });
+
+  // Rotate asteroid belts
+  const belt1BaseRadius = (18000 + 48000) / 2;
+  const belt2BaseRadius = (70000 + 110000) / 2;
+  const belt3BaseRadius = (145000 + 153000) / 2;
+  const belt4BaseRadius = (180000 + 262600) / 2;
+  
+  belt1.rotation.y += window.timeScale *  0.00064 / Math.sqrt(belt1BaseRadius / 1000);
+  belt2.rotation.y += window.timeScale *  0.00064 / Math.sqrt(belt2BaseRadius / 1000);
+  belt3.rotation.y += window.timeScale *  0.00064 / Math.sqrt(belt3BaseRadius / 1000);
+  belt4.rotation.y += window.timeScale *  0.00064 / Math.sqrt(belt4BaseRadius / 1000);
+  beltX1.rotation.y += window.timeScale *  0.00003;
+  beltX2.rotation.y -= 0.00003;
+
+  // Animate binary system
+  const bp = binary.a * Math.sqrt(1 - binary.e * binary.e);
+  const ccp = binary.a * binary.e;
+  const Ip = binary.inc * Math.PI / 180;
+  binary.ang += 0.00035;
+
+  const cx = binary.a * Math.cos(binary.ang) - ccp;
+  const cy = bp * Math.sin(binary.ang) * Math.sin(Ip);
+  const cz = bp * Math.sin(binary.ang) * Math.cos(Ip);
+
+  const sep = 180;
+  const local = binary.ang * 5;
+
+  binaryA.position.set(cx + Math.cos(local) * sep, cy, cz + Math.sin(local) * sep);
+  binaryB.position.set(cx - Math.cos(local) * sep * 1.78, cy, cz - Math.sin(local) * sep * 1.78);
+
+  moonA.position.set(
+    binaryA.position.x + Math.cos(local * 2.5) * 120,
+    binaryA.position.y,
+    binaryA.position.z + Math.sin(local * 2.5) * 120
+  );
+
+  cb1.position.set(cx + Math.cos(local * .7) * 450, cy, cz + Math.sin(local * .7) * 450);
+  cb2.position.set(cx + Math.cos(local * .5 + 1) * 700, cy, cz + Math.sin(local * .5 + 1) * 700);
+  cb3.position.set(cx + Math.cos(local * .3 + 2) * 1000, cy, cz + Math.sin(local * .3 + 2) * 1000);
+
+  // Animate P9
+  const bp9 = p9.a * Math.sqrt(1 - p9.e * p9.e);
+  const ccp9 = p9.a * p9.e;
+  const Ip9 = p9.inc * Math.PI / 180;
+  p9.ang += 0.00022;
+
+  p9.m.position.set(
+    p9.a * Math.cos(p9.ang) - ccp9,
+    bp9 * Math.sin(p9.ang) * Math.sin(Ip9),
+    bp9 * Math.sin(p9.ang) * Math.cos(Ip9)
+  );
+
+  // Animate P9 moons
+  for(let i = 0; i < 20; i++) {
+    const moonIdx = moons.length - 20 + i;
+    if(moonIdx >= 0 && moonIdx < moons.length) {
+      const m = moons[moonIdx];
+      m.a += m.speed;
+      const T = m.tilt * Math.PI / 180;
+      m.m.position.set(
+        p9.m.position.x + Math.cos(m.a) * m.dist,
+        p9.m.position.y + Math.sin(T) * Math.sin(m.a) * m.dist,
+        p9.m.position.z + Math.cos(T) * Math.sin(m.a) * m.dist
+      );
+    }
+  }
+
+  // Animate P12
+  const bp12 = p12.a * Math.sqrt(1 - p12.e * p12.e);
+  const ccp12 = p12.a * p12.e;
+  const Ip12 = p12.inc * Math.PI / 180;
+  p12.ang += 0.00012;
+
+  p12.m.position.set(
+    p12.a * Math.cos(p12.ang) - ccp12,
+    bp12 * Math.sin(p12.ang) * Math.sin(Ip12),
+    bp12 * Math.sin(p12.ang) * Math.cos(Ip12)
+  );
+
+  p12Moons.forEach(m => {
+    m.a += m.speed;
+    const T = m.tilt * Math.PI / 180;
+    m.m.position.set(
+      p12.m.position.x + Math.cos(m.a) * m.dist,
+      p12.m.position.y + Math.sin(T) * Math.sin(m.a) * m.dist,
+      p12.m.position.z + Math.cos(T) * Math.sin(m.a) * m.dist
+    );
+  });
+
+  // Animate P13
+  const bp13 = p13.a * Math.sqrt(1 - p13.e * p13.e);
+  const ccp13 = p13.a * p13.e;
+  const Ip13 = p13.inc * Math.PI / 180;
+  p13.ang += 0.00008;
+
+  p13.m.position.set(
+    p13.a * Math.cos(p13.ang) - ccp13,
+    bp13 * Math.sin(p13.ang) * Math.sin(Ip13),
+    bp13 * Math.sin(p13.ang) * Math.cos(Ip13)
+  );
+
+  p13Moons.forEach(m => {
+    m.a += m.speed;
+    const T = m.tilt * Math.PI / 180;
+    m.m.position.set(
+      p13.m.position.x + Math.cos(m.a) * m.dist,
+      p13.m.position.y + Math.sin(T) * Math.sin(m.a) * m.dist,
+      p13.m.position.z + Math.cos(T) * Math.sin(m.a) * m.dist
+    );
+  });
+
+
+  // Beta / Gamma hierarchical motion
+  betaGammaAngle += window.timeScale *  0.00005;
+  systemAngle += window.timeScale *  0.000015;
+
+  const systemRadius = 2500000;
+  const bgX = Math.cos(systemAngle) * systemRadius;
+  const bgZ = Math.sin(systemAngle) * systemRadius;
+
+  const localRadius = 400000;
+
+  betaStar.position.set(
+    bgX + Math.cos(betaGammaAngle) * localRadius,
+    0,
+    bgZ + Math.sin(betaGammaAngle) * localRadius
+  );
+
+  gammaStar.position.set(
+    bgX - Math.cos(betaGammaAngle) * localRadius,
+    0,
+    bgZ - Math.sin(betaGammaAngle) * localRadius
+  );
+
+  betaGlow.position.copy(betaStar.position);
+  gammaGlow.position.copy(gammaStar.position);
+
+  betaPlanets.forEach(p=>{
+    if(p.orbit) p.orbit.position.copy(betaStar.position);
+  });
+
+  gammaPlanets.forEach(p=>{
+    if(p.orbit) p.orbit.position.copy(gammaStar.position);
+  });
+
+  betaBelt.position.copy(betaStar.position);
+  gammaBelt.position.copy(gammaStar.position);
+  if(typeof gammaExtraBelt !== 'undefined'){
+    gammaExtraBelt.position.copy(gammaStar.position);
+  }
+  betaBelt.rotation.y += window.timeScale *  0.00005;
+  gammaBelt.rotation.y += window.timeScale *  0.00004;
+  if(typeof gammaExtraBelt !== 'undefined'){
+    gammaExtraBelt.rotation.y += window.timeScale *  0.000025;
+  }
+
+  betaPlanets.forEach(p=>{
+    p.ang+=0.002/Math.sqrt(p.a/1200);
+    p.m.position.set(
+      betaStar.position.x+Math.cos(p.ang)*p.a,
+      betaStar.position.y,
+      betaStar.position.z+Math.sin(p.ang)*p.a
+    );
+  });
+  gammaPlanets.forEach(p=>{
+    p.ang+=0.002/Math.sqrt(p.a/900);
+    p.m.position.set(
+      gammaStar.position.x+Math.cos(p.ang)*p.a,
+      gammaStar.position.y,
+      gammaStar.position.z+Math.sin(p.ang)*p.a
+    );
+  });
+  betaMoons.forEach(m=>{
+    const p=betaPlanets[m.parent].m.position; m.a+=m.speed;
+    m.m.position.set(p.x+Math.cos(m.a)*m.dist,p.y,p.z+Math.sin(m.a)*m.dist);
+  });
+  gammaMoons.forEach(m=>{
+    const p=gammaPlanets[m.parent].m.position; m.a+=m.speed;
+    m.m.position.set(p.x+Math.cos(m.a)*m.dist,p.y,p.z+Math.sin(m.a)*m.dist);
+  });
+
+
+
+
+
+  // Camera tracking with 360° rotation
+  if(trackingMode && trackedObject) {
+    const targetPos = trackedObject.mesh.position.clone();
+    
+    // Calcul de la position orbitale autour de la planète
+    const x = cameraDistance * Math.cos(cameraAngleY) * Math.cos(cameraAngleX);
+    const y = cameraDistance * Math.sin(cameraAngleX);
+    const z = cameraDistance * Math.sin(cameraAngleY) * Math.cos(cameraAngleX);
+    
+    const newCameraPos = new THREE.Vector3(
+      targetPos.x + x,
+      targetPos.y + y,
+      targetPos.z + z
+    );
+    
+    camera.position.lerp(newCameraPos, 0.08);
+    camera.lookAt(targetPos);
+  }
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+animate();
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+<script>
+window.timeScale=1;
+const ts=document.getElementById('timeSlider');
+const tv=document.getElementById('timeValue');
+if(ts){
+ ts.addEventListener('input',()=>{
+   window.timeScale=parseFloat(ts.value);
+   if(tv) tv.textContent=timeScale.toFixed(1)+'x';
+ });
+}
+window.timeScale=timeScale;
+</script>
+</body>
+</html>
+<!-- Alpha 2.62: Beta=type G, Gamma=type K, préparation des planètes/lunes/orbites -->
+
+}
+
+</script>
+    <button class="menuButton">S2-Project</button>
+    <button class="menuButton">S3-Project</button>
+    <button class="menuButton">S4-Project</button>
+    <button class="menuButton">S5-Project</button>
+    <button class="menuButton">S6-Project</button>
+    <button class="menuButton">S7-Project</button>
+    <button class="menuButton">S8-Project</button>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    2000
+);
+
+camera.position.set(0,25,90);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias:true
+});
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+/* ==========================
+   LUMIÈRES
+========================== */
+
+scene.add(
+    new THREE.AmbientLight(
+        0xffffff,
+        0.35
+    )
+);
+
+const starLight = new THREE.PointLight(
+    0xaaddff,
+    8,
+    1000
+);
+
+scene.add(starLight);
+
+/* ==========================
+   GROUPE PRINCIPAL
+========================== */
+
+const system = new THREE.Group();
+scene.add(system);
+
+/* ==========================
+   ÉTOILE
+========================== */
+
+const star = new THREE.Mesh(
+    new THREE.SphereGeometry(
+        3,
+        32,
+        32
+    ),
+    new THREE.MeshBasicMaterial({
+        color:0xaaddff
+    })
+);
+
+star.position.x = 30;
+
+system.add(star);
+
+const halo = new THREE.Mesh(
+    new THREE.SphereGeometry(
+        8,
+        32,
+        32
+    ),
+    new THREE.MeshBasicMaterial({
+        color:0xaaddff,
+        transparent:true,
+        opacity:0.18
+    })
+);
+
+halo.position.x = 30;
+
+system.add(halo);
+
+starLight.position.copy(
+    star.position
+);
+
+/* ==========================
+   PLANÈTES
+========================== */
+
+function createPlanet(
+    size,
+    color,
+    distance
+){
+
+    const pivot =
+        new THREE.Object3D();
+
+    pivot.position.x = 30;
+
+    const planet =
+        new THREE.Mesh(
+
+        new THREE.SphereGeometry(
+            size,
+            32,
+            32
+        ),
+
+        new THREE.MeshStandardMaterial({
+            color:color
+        })
+
+    );
+
+    planet.position.x =
+        distance;
+
+    pivot.add(planet);
+
+    system.add(pivot);
+
+    return {
+        pivot,
+        planet
+    };
+}
+
+const p1 =
+createPlanet(
+    1.5,
+    0x3366ff,
+    40
+);
+
+const p2 =
+createPlanet(
+    2.4,
+    0xff8844,
+    70
+);
+
+const p3 =
+createPlanet(
+    3.5,
+    0x44ffff,
+    100
+);
+
+/* ==========================
+   LUNES
+========================== */
+
+const moonPivots = [];
+
+function addMoon(
+    parent,
+    size,
+    distance
+){
+
+    const pivot =
+        new THREE.Object3D();
+
+    const moon =
+        new THREE.Mesh(
+
+        new THREE.SphereGeometry(
+            size,
+            16,
+            16
+        ),
+
+        new THREE.MeshStandardMaterial({
+            color:0xbbbbbb
+        })
+
+    );
+
+    moon.position.x =
+        distance;
+
+    pivot.add(moon);
+
+    parent.add(pivot);
+
+    moonPivots.push(pivot);
+}
+
+/* planète 1 */
+
+addMoon(
+    p1.planet,
+    0.35,
+    3
+);
+
+/* planète 2 */
+
+addMoon(
+    p2.planet,
+    0.35,
+    4
+);
+
+addMoon(
+    p2.planet,
+    0.28,
+    6
+);
+
+addMoon(
+    p2.planet,
+    0.25,
+    8
+);
+
+/* planète 3 */
+
+addMoon(
+    p3.planet,
+    0.45,
+    5
+);
+
+addMoon(
+    p3.planet,
+    0.38,
+    7
+);
+
+addMoon(
+    p3.planet,
+    0.30,
+    9
+);
+
+addMoon(
+    p3.planet,
+    0.24,
+    11
+);
+
+addMoon(
+    p3.planet,
+    0.20,
+    13
+);
+
+/* ==========================
+   CEINTURE D'ASTÉROÏDES
+========================== */
+
+const belt =
+    new THREE.Group();
+
+for(
+    let i=0;
+    i<1200;
+    i++
+){
+
+    const angle =
+        Math.random()
+        * Math.PI * 2;
+
+    const radius =
+        140 +
+        Math.random()*20;
+
+    const asteroid =
+        new THREE.Mesh(
+
+        new THREE.SphereGeometry(
+            0.15 +
+            Math.random()*0.50,
+            6,
+            6
+        ),
+
+        new THREE.MeshStandardMaterial({
+            color:0x888888
+        })
+
+    );
+
+    asteroid.position.set(
+
+        50 +
+        Math.cos(angle)
+        * radius,
+
+        (Math.random()-0.5)
+        * 2,
+
+        Math.sin(angle)
+        * radius
+
+    );
+
+    belt.add(asteroid);
+}
+
+system.add(belt);
+
+/* ==========================
+   CONTRÔLE SOURIS
+========================== */
+
+let dragging = false;
+
+document.addEventListener(
+    "mousedown",
+    ()=>{
+        dragging=true;
+    }
+);
+
+document.addEventListener(
+    "mouseup",
+    ()=>{
+        dragging=false;
+    }
+);
+
+document.addEventListener(
+    "mousemove",
+    (e)=>{
+
+        if(dragging){
+
+            system.rotation.y +=
+                e.movementX
+                * 0.005;
+
+            system.rotation.x +=
+                e.movementY
+                * 0.005;
+        }
+    }
+);
+
+/* ==========================
+   ZOOM
+========================== */
+
+document.addEventListener(
+    "wheel",
+    (e)=>{
+
+        camera.position.z +=
+            e.deltaY * 0.03;
+
+        camera.position.z =
+            Math.max(
+                30,
+                Math.min(
+                    180,
+                    camera.position.z
+                )
+            );
+    }
+);
+
+/* ==========================
+   ANIMATION
+========================== */
+
+function animate(){
+
+    requestAnimationFrame(
+        animate
+    );
+
+    if(!dragging){
+
+        system.rotation.y
+            += 0.0015;
+    }
+
+    p1.pivot.rotation.y
+        += 0.010;
+
+    p2.pivot.rotation.y
+        += 0.006;
+
+    p3.pivot.rotation.y
+        += 0.003;
+
+    moonPivots.forEach(
+        (m,index)=>{
+
+        m.rotation.y +=
+            0.02 +
+            index*0.001;
+
+    });
+
+    belt.rotation.y
+        += 0.0008;
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+animate();
+
+/* ==========================
+   REDIMENSIONNEMENT
+========================== */
+
+window.addEventListener(
+    "resize",
+    ()=>{
+
+        camera.aspect =
+            window.innerWidth
+            / window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+    }
+);
+
+</script>
+
+</body>
+</html>
